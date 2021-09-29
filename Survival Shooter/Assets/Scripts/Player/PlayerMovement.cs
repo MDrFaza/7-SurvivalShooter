@@ -1,13 +1,18 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 6f;
+    float originalSpeed;
     Vector3 movement;
     Animator anim;
     Rigidbody playerRigidbody;
     int floorMask;
     float camRayLength = 100f;
+    float timer = 0;
+    public bool isFast {get; set;}
+    public float effectItem {get; set;}
 
     private void Awake()
     {
@@ -19,6 +24,9 @@ public class PlayerMovement : MonoBehaviour
         
         //Mendapatkan komponen Rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
+
+        isFast = false;
+        originalSpeed = speed;
     }
 
     private void FixedUpdate()
@@ -74,5 +82,27 @@ public class PlayerMovement : MonoBehaviour
     {
         bool walking = h != 0f || v != 0f;
         anim.SetBool("IsWalking", walking);
+    }
+
+    void Update(){
+        if(timer > 0){
+            timer -= Time.deltaTime;
+            return;
+        }else{
+            timer = 0;
+        }
+        
+        if(isFast)
+        {
+            SpeedUp ();
+            isFast = false;
+        }else{
+            speed  = originalSpeed;
+        }
+    }
+
+    public void SpeedUp(){
+        timer = effectItem;
+        speed *= 3;
     }
 }

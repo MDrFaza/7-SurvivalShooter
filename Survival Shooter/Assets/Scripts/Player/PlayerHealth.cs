@@ -34,6 +34,15 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = startingHealth;
     }
 
+    public void HealthUp(int effect){
+        currentHealth += effect;
+        if(currentHealth > startingHealth){
+            currentHealth = startingHealth;
+        }
+        //Merubah tampilan dari health slider
+        healthSlider.value = currentHealth;
+    }
+
 
     void Update()
     {
@@ -94,11 +103,5 @@ public class PlayerHealth : MonoBehaviour
         playerShooting.enabled = false;
 
         inputHandler.enabled = false;
-    }
-
-    public void RestartLevel ()
-    {
-        //meload ulang scene dengan index 0 pada build setting
-        SceneManager.LoadScene (0);
     }
 }
